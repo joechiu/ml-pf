@@ -57,7 +57,7 @@
 
     // Assistant messages get a hover action bar with a copy button,
     // matching ChatGPT's per-message actions.
-    if (role === "assistant" && !loading) {
+    if (!loading) {
       const actions = document.createElement("div");
       actions.className = "msg-actions";
 
@@ -179,4 +179,5 @@
 
   checkHealth();
 })();
+
 
