@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from typing import List
 
 load_dotenv()
 
@@ -42,7 +43,7 @@ class ChatMessage(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    messages: list[ChatMessage]
+    messages: List[ChatMessage]
 
 
 class ChatResponse(BaseModel):
