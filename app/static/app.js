@@ -1,4 +1,14 @@
 (function () {
+  const COPY_ICON =
+    '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">' +
+    '<rect x="9" y="9" width="12" height="12" rx="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke-linecap="round" stroke-linejoin="round"/>' +
+    "</svg>";
+  const CHECK_ICON =
+    '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">' +
+    '<path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    "</svg>";
+
   const messagesEl = document.getElementById("messages");
   const emptyStateEl = document.getElementById("emptyState");
   const chatScrollEl = document.getElementById("chatScroll");
@@ -30,6 +40,9 @@
     avatar.className = "avatar";
     avatar.textContent = role === "user" ? "U" : "AI";
 
+    const col = document.createElement("div");
+    col.className = "msg-col";
+
     const bubble = document.createElement("div");
     bubble.className = "bubble-content" + (loading ? " loading" : "");
 
@@ -40,8 +53,49 @@
       bubble.textContent = content;
     }
 
+    col.appendChild(bubble);
+
+    // Assistant messages get a hover action bar with a copy button,
+    // matching ChatGPT's per-message actions.
+    if (role === "assistant" && !loading) {
+      const actions = document.createElement("div");
+      actions.className = "msg-actions";
+
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy-btn";
+      copyBtn.type = "button";
+      copyBtn.title = "Copy";
+      copyBtn.setAttribute("aria-label", "Copy message");
+      copyBtn.innerHTML = COPY_ICON;
+
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(content);
+        } catch {
+          // clipboard API can fail (e.g. insecure context) — fall back silently
+          const ta = document.createElement("textarea");
+          ta.value = content;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+        }
+        copyBtn.innerHTML = CHECK_ICON;
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          copyBtn.innerHTML = COPY_ICON;
+          copyBtn.classList.remove("copied");
+        }, 1500);
+      });
+
+      actions.appendChild(copyBtn);
+      col.appendChild(actions);
+    }
+
     wrapper.appendChild(avatar);
-    wrapper.appendChild(bubble);
+    wrapper.appendChild(col);
     messagesEl.appendChild(wrapper);
     scrollToBottom();
     return wrapper;
@@ -125,3 +179,4 @@
 
   checkHealth();
 })();
+
