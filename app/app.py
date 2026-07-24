@@ -1,20 +1,3 @@
-"""
-Local chat app that talks to an Azure ML managed online endpoint running
-a Prompt Flow (flow.dag.yaml expects {"message": "..."} and returns
-{"answer": "..."}).
-
-Run with:
-    uvicorn main:app --reload --port 8000
-
-Config via environment variables (see .env.example):
-    AZURE_ENDPOINT_URL   - full scoring URL, e.g.
-                           https://ok-tool1-api.<region>.inference.ml.azure.com/score
-    AZURE_API_KEY        - primary/secondary key or bearer token for the endpoint
-    AZURE_DEPLOYMENT_NAME- optional, targets a specific deployment (e.g. "yellow")
-                           sent via the azureml-model-deployment header
-    REQUEST_TIMEOUT_SECS - optional, defaults to 180 (matches request_timeout_ms in yellow-ok.yml)
-"""
-
 import os
 import logging
 from pathlib import Path
