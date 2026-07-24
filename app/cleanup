@@ -1,0 +1,11 @@
+#!/bin/bash
+
+yes=$1
+
+echo "1. cleaning up the local assets..."
+rm -rf __pycache__/
+rm -rf ../lib/__pycache__/
+rm -rf /tmp/assets
+rm -rf tmp/
+rm -f *.html
+rm -f /tmp/tools-pf.log
