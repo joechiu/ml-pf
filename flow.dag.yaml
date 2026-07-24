@@ -1,0 +1,28 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+
+inputs:
+  message:
+    type: string
+
+outputs:
+  answer:
+    type: string
+    reference: ${chat.output}
+
+nodes:
+- name: chat
+  type: llm
+
+  source:
+    type: code
+    path: prompt.jinja2
+
+  connection: open_ai_connection
+
+  api: chat
+
+  inputs:
+    deployment_name: gpt-5.4-nano
+    temperature: 0.2
+    message: ${inputs.message}
+
