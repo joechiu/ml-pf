@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+
+name: ok6-tool1-flow
+
+build:
+  path: .
+  dockerfile_path: Dockerfile
+
+description: PromptFlow runtime with tool1 dependencies
+
+inference_config:
+  liveness_route:
+    path: /
+    port: 8080
+
+  readiness_route:
+    path: /
+    port: 8080
+
+  scoring_route:
+    path: /score
+    port: 8080
+

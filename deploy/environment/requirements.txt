@@ -1,0 +1,16 @@
+promptflow[azure]>=1.7.0
+promptflow-tools
+bs4
+colorlog
+beautifulsoup4
+trafilatura
+python-dotenv
+requests
+azure-storage-blob
+azure-data-tables
+azure-identity
+azure-keyvault-secrets
+frontend
+pymupdf
+pypdf==6.14.2
+regex<2024.0.0
